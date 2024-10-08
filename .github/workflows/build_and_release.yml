@@ -21,26 +21,25 @@ jobs:
     strategy:
       matrix:
         platform:
-          - runner: ubuntu-24.04
+          # Use old ubuntu for binary compatibility with older glibc
+          - runner: ubuntu-20.04
             target: manylinux_2_17_x86_64.manylinux2014_x86_64
     steps:
       - uses: actions/checkout@v4
       - name: Install dependencies
         run: |
-          pip install uv --break-system-packages
+          pip install uv
           uv tool install build
           uv tool install wheel
       - name: Build app
         run: |
           bash build_reduce.sh ${{ inputs.reduce-release-tag }}
-      - name: Patch glibc for backwards compatibility
-        uses: lmangani/polyfill-glibc-action@main
-        with:
-          glibc: '2.17'
-          target: 'build/bin/reduce'
       - name: Build python wheel
         run: |
           bash build_python.sh wheel ${{ inputs.version-tag }} ${{ matrix.platform.target }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: 3.12
       - name: Test wheel
         run: |
           uv venv
