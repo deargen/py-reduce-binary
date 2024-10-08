@@ -41,3 +41,4 @@ cp -r "$BUILD_DIR/"* "$PYTHON_BUILD_DIR/src/reduce_binary"
 cd "$PYTHON_BUILD_DIR" || { echo "Failure"; exit 1; }
 
 pyproject-build --installer=uv --wheel
+wheel tags --python-tag py3 --abi-tag none dist/*.whl --remove

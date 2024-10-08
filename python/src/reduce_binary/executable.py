@@ -1,11 +1,11 @@
 from __future__ import annotations
 
-import importlib.resources
 import os
 import subprocess
+from pathlib import Path
 from typing import Any, Literal, overload
 
-BIN_DIR = importlib.resources.files("reduce_binary.bin")
+BIN_DIR = Path(__file__).parent / "bin"
 if os.name == "nt":
     REDUCE_BIN_PATH = BIN_DIR / "reduce.exe"
 else:
@@ -33,7 +33,7 @@ def reduce(
 def reduce(
     *args: str, return_completed_process: bool = False, **kwargs: Any
 ) -> int | subprocess.CompletedProcess[str | bytes]:
-    complete_process = subprocess.run([str(REDUCE_BIN_PATH), *args], **kwargs)
+    complete_process = subprocess.run([REDUCE_BIN_PATH, *args], **kwargs)
     if return_completed_process:
         return complete_process
     return complete_process.returncode
