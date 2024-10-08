@@ -46,7 +46,7 @@ jobs:
       - name: Upload wheels
         uses: actions/upload-artifact@v4
         with:
-          name: wheels-linux-${{ matrix.platform.target }}
+          name: wheel-linux-${{ matrix.platform.target }}
           path: build_python/dist/*.whl
 
   macos:
@@ -86,6 +86,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           path: build_python/dist/*.whl
+          name: wheel-macos-${{ matrix.platform.target }}
 
   sdist:
     runs-on: ubuntu-24.04
@@ -102,6 +103,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           path: build_python/dist/*.tar.gz
+          name: wheel-sdist
 
   release:
     name: Release
@@ -112,6 +114,8 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           path: dist
+          pattern: wheel-*
+          merge-multiple: true
       - name: Build and upload to PyPI
         run: |
           pip install uv --break-system-packages
