@@ -7,7 +7,7 @@ mkdir -p "$BUILD_DIR"
 if [[ $# -ge 1 ]]; then
 	REDUCE_RELEASE_TAG=$1
 else
-	REDUCE_RELEASE_TAG='master'
+    echo "usage: $0 <REDUCE-RELEASE-TAG>"
 fi
 
 ## Fetch Code

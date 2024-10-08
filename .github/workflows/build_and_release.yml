@@ -1,0 +1,123 @@
+name: Build and release to PyPI
+on:
+  workflow_dispatch:
+    inputs:
+      version-tag:
+        description: Version tag
+        required: true
+        default: 4.14
+      dry-run:
+        description: Dry run
+        type: boolean
+        default: false
+
+jobs:
+  linux:
+    runs-on: ${{ matrix.platform.runner }}
+    strategy:
+      matrix:
+        platform:
+          - runner: ubuntu-24.04
+            target: x86_64
+          - runner: ubuntu-24.04
+            target: x86
+          - runner: ubuntu-24.04
+            target: aarch64
+          - runner: ubuntu-24.04
+            target: armv7
+          - runner: ubuntu-24.04
+            target: s390x
+          - runner: ubuntu-24.04
+            target: ppc64le
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: |
+          pip install uv
+          uv tool install build wheel
+      - name: Build app
+        run: |
+          bash build_reduce.sh
+      - name: Build python wheel
+        run: |
+          bash build_python.sh wheel ${{ inputs.version-tag }}
+      - name: Test wheel
+        run: |
+          uv venv
+          source .venv/bin/activate
+          uv pip install -r requirements_test.txt
+          uv pip install build_python/dist/*.whl
+          pytest
+      - name: Upload wheels
+        uses: actions/upload-artifact@v4
+        with:
+          name: wheels-linux-${{ matrix.platform.target }}
+          path: build_python/dist
+
+  macos:
+    runs-on: ${{ matrix.platform.runner }}
+    strategy:
+      matrix:
+        platform:
+          - runner: macos-latest
+            target: x86_64
+          - runner: macos-14
+            target: aarch64
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: |
+          pip install uv
+          uv tool install build wheel
+      - name: Build app
+        run: |
+          bash build_reduce.sh
+      - name: Build python wheel
+        run: |
+          bash build_python.sh wheel ${{ inputs.version-tag }}
+      - name: Test wheel
+        run: |
+          uv venv
+          source .venv/bin/activate
+          uv pip install -r requirements_test.txt
+          uv pip install build_python/dist/*.whl
+          pytest
+      - name: Upload wheels
+        uses: actions/upload-artifact@v4
+        with:
+          name: wheels-macos-${{ matrix.platform.target }}
+          path: build_python/dist
+
+  sdist:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: |
+          pip install uv
+          uv tool install build wheel
+      - name: Build sdist
+        run: |
+          bash build_python.sh sdist ${{ inputs.version-tag }}
+      - name: Upload sdist
+        uses: actions/upload-artifact@v4
+        with:
+          name: wheels-sdist
+          path: build_python/dist
+
+  release:
+    name: Release
+    if: ${{ github.event.inputs.dry-run == 'false' }}
+    runs-on: ubuntu-24.04
+    needs: [linux, macos, sdist]
+    steps:
+      - uses: actions/download-artifact@v4

@@ -1,16 +1,10 @@
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 BUILD_DIR="$SCRIPT_DIR/build"
 
-if [[ $# -lt 2 ]]; then
-    echo "Usage: $0 <wheel/sdist> <VERSION_NUM>"
+if [[ $# -ge 1 ]]; then
+	VERSION_NUM=$1
 else
-    if [[ $1 != "wheel" && $1 != "sdist" ]]; then
-        echo "First argument must be either 'wheel' or 'sdist'"
-        exit 1
-    fi
-
-    WHEEL_OR_SDIST=$1
-	VERSION_NUM=$2
+    echo "Usage: $0 <wheel/sdist> <VERSION_NUM>"
 fi
 
 # use gsed on mac
@@ -42,14 +36,9 @@ $SED -i "s/version = \"0.0.0\"/version = \"$VERSION_NUM\"/g" "$PYTHON_BUILD_DIR/
 # Replace __version__ = "0.0.0" with the desired version
 $SED -i "s/__version__ = \"0.0.0\"/__version__ = \"$VERSION_NUM\"/g" "$PYTHON_BUILD_DIR/src/reduce_binary/__init__.py" || { echo "Failure"; exit 1; }
 
+cp -r "$BUILD_DIR/"* "$PYTHON_BUILD_DIR/src/reduce_binary"
+
 cd "$PYTHON_BUILD_DIR" || { echo "Failure"; exit 1; }
 
-if [ "$WHEEL_OR_SDIST" == "wheel" ]; then
-    cp -r "$BUILD_DIR/"* "$PYTHON_BUILD_DIR/src/reduce_binary"
-    pyproject-build --installer=uv --wheel
-    wheel tags --python-tag py3 --abi-tag none --platform "$(python "$SCRIPT_DIR"/scripts/get_current_platform.py)" dist/*.whl --remove
-else
-    pyproject-build --installer=uv --sdist
-fi
-
-
+pyproject-build --installer=uv --wheel
+wheel tags --python-tag py3 --abi-tag none --platform "$(python "$SCRIPT_DIR"/scripts/get_current_platform.py)" dist/*.whl --remove
