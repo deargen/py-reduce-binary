@@ -57,7 +57,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: wheels-linux-${{ matrix.platform.target }}
-          path: build_python/dist
+          path: build_python/dist/*.whl
 
   macos:
     runs-on: ${{ matrix.platform.runner }}
@@ -92,8 +92,7 @@ jobs:
       - name: Upload wheels
         uses: actions/upload-artifact@v4
         with:
-          name: wheels-macos-${{ matrix.platform.target }}
-          path: build_python/dist
+          path: build_python/dist/*.whl
 
   sdist:
     runs-on: ubuntu-24.04
@@ -109,8 +108,7 @@ jobs:
       - name: Upload sdist
         uses: actions/upload-artifact@v4
         with:
-          name: wheels-sdist
-          path: build_python/dist
+          path: build_python/dist/*.tar.gz
 
   release:
     name: Release
@@ -123,8 +121,6 @@ jobs:
           path: dist
       - name: Build and upload to PyPI
         run: |
-          ls
-          ls dist
           pip install uv --break-system-packages
           uv tool install twine
           twine upload dist/* -u __token__ -p ${{ secrets.PYPI_API_TOKEN }} --non-interactive
