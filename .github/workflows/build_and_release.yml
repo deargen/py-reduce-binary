@@ -35,9 +35,6 @@ jobs:
             target: ppc64le
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
       - name: Install dependencies
         run: |
           pip install uv setuptools --break-system-packages
@@ -73,9 +70,6 @@ jobs:
             target: aarch64
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
       - name: Install dependencies
         run: |
           pip install uv setuptools --break-system-packages
@@ -105,9 +99,6 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
       - name: Install dependencies
         run: |
           pip install uv --break-system-packages
