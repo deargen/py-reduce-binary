@@ -35,7 +35,7 @@ jobs:
           bash build_reduce.sh ${{ inputs.reduce-release-tag }}
       - name: Build python wheel
         run: |
-          bash build_python.sh wheel ${{ inputs.version-tag }}
+          bash build_python.sh wheel ${{ inputs.version-tag }} ${{ matrix.platform.target }}
       - name: Test wheel
         run: |
           uv venv
@@ -63,6 +63,7 @@ jobs:
       - name: Install dependencies
         run: |
           pip install uv --break-system-packages
+          uv tool update-shell
           uv tool install build
           uv tool install wheel
           brew install gnu-sed
