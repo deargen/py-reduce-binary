@@ -79,10 +79,10 @@ jobs:
           python-version: 3.12
       - name: Test wheel
         run: |
-          uv venv
-          source .venv/bin/activate
-          uv pip install -r requirements_test.txt
-          uv pip install build_python/dist/*.whl
+          # uv venv
+          # source .venv/bin/activate
+          pip install -r requirements_test.txt
+          pip install build_python/dist/*.whl
           pytest
       - name: Upload wheels
         uses: actions/upload-artifact@v4
