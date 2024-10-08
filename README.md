@@ -1,4 +1,4 @@
-# Reduce Binary
+# pip install reduce-binary
 
 ![build](https://github.com/deargen/py-reduce-binary/actions/workflows/build_and_release.yml/badge.svg)
 
