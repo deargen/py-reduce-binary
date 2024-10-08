@@ -130,6 +130,7 @@ jobs:
       - uses: actions/download-artifact@v4
       - name: Build and upload to PyPI
         run: |
-          pip install twine
           ls
-          python -m twine upload dist/* -u __token__ -p ${{ secrets.PYPI_API_TOKEN }} --non-interactive
+          pip install uv
+          uv tool install twine
+          # twine upload dist/* -u __token__ -p ${{ secrets.PYPI_API_TOKEN }} --non-interactive
