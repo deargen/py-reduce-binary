@@ -33,6 +33,11 @@ jobs:
       - name: Build app
         run: |
           bash build_reduce.sh ${{ inputs.reduce-release-tag }}
+      - name: Patch glibc for backwards compatibility
+        uses: lmangani/polyfill-glibc-action@main
+        with:
+          glibc: '2.17'
+          target: 'build/bin/reduce'
       - name: Build python wheel
         run: |
           bash build_python.sh wheel ${{ inputs.version-tag }} ${{ matrix.platform.target }}
