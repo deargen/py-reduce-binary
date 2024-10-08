@@ -41,7 +41,7 @@ jobs:
           uv tool install wheel
       - name: Build app
         run: |
-          bash build_reduce.sh
+          bash build_reduce.sh ${{ inputs.version-tag }}
       - name: Build python wheel
         run: |
           bash build_python.sh wheel ${{ inputs.version-tag }}
@@ -79,7 +79,7 @@ jobs:
           uv tool install wheel
       - name: Build app
         run: |
-          bash build_reduce.sh
+          bash build_reduce.sh ${{ inputs.version-tag }}
       - name: Build python wheel
         run: |
           bash build_python.sh wheel ${{ inputs.version-tag }}
