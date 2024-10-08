@@ -127,4 +127,4 @@ jobs:
           ls dist
           pip install uv --break-system-packages
           uv tool install twine
-          # twine upload dist/* -u __token__ -p ${{ secrets.PYPI_API_TOKEN }} --non-interactive
+          twine upload dist/* -u __token__ -p ${{ secrets.PYPI_API_TOKEN }} --non-interactive
