@@ -22,22 +22,12 @@ jobs:
       matrix:
         platform:
           - runner: ubuntu-24.04
-            target: x86_64
-          - runner: ubuntu-24.04
-            target: x86
-          - runner: ubuntu-24.04
-            target: aarch64
-          - runner: ubuntu-24.04
-            target: armv7
-          - runner: ubuntu-24.04
-            target: s390x
-          - runner: ubuntu-24.04
-            target: ppc64le
+            target: manylinux_2_17_x86_64.manylinux2014_x86_64
     steps:
       - uses: actions/checkout@v4
       - name: Install dependencies
         run: |
-          pip install uv setuptools --break-system-packages
+          pip install uv --break-system-packages
           uv tool install build
           uv tool install wheel
       - name: Build app
@@ -64,15 +54,15 @@ jobs:
     strategy:
       matrix:
         platform:
-          - runner: macos-latest
-            target: x86_64
+          - runner: macos-12
+            target: maxosx_10_12_x86_64
           - runner: macos-14
-            target: aarch64
+            target: maxosx_11_0_arm64
     steps:
       - uses: actions/checkout@v4
       - name: Install dependencies
         run: |
-          pip install uv setuptools --break-system-packages
+          pip install uv --break-system-packages
           uv tool install build
           uv tool install wheel
           brew install gnu-sed
@@ -81,7 +71,7 @@ jobs:
           bash build_reduce.sh ${{ inputs.reduce-release-tag }}
       - name: Build python wheel
         run: |
-          bash build_python.sh wheel ${{ inputs.version-tag }}
+          bash build_python.sh wheel ${{ inputs.version-tag }} ${{ matrix.platform.target }}
       - name: Test wheel
         run: |
           uv venv

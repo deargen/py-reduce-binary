@@ -3,7 +3,7 @@
 Depends on the following packages:
 
 ```bash
-pip install uv setuptools
+pip install uv
 uv tool install wheel
 uv tool install build
 
@@ -92,3 +92,9 @@ This project is forked and inspired from [tmux-appimage](https://github.com/nels
 ## Maintainance Note (Important)
 
 The Github Action will be disabled if the project doesn't update for a few months. You can re-enable it in the "Actions" tab.
+
+
+## ✅ TODO
+
+- [ ] Cross-compile for Linux
+- [ ] Windows build
