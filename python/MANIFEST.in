@@ -1,0 +1,2 @@
+include src/reduce_binary/*
+include src/reduce_binary/bin/*
