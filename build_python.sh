@@ -73,6 +73,7 @@ if [ -d "$PYTHON_BUILD_DIR" ]; then
 fi
 
 cp -r "$SCRIPT_DIR/python" "$PYTHON_BUILD_DIR"
+cp "$SCRIPT_DIR/README.md" "$PYTHON_BUILD_DIR"
 
 # Replace version = "0.0.0" with the desired version
 $SED -i "s/version = \"0.0.0\"/version = \"$VERSION_NUM\"/g" "$PYTHON_BUILD_DIR/pyproject.toml" || { echo "Failure"; exit 1; }
