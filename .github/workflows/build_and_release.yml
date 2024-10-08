@@ -55,9 +55,9 @@ jobs:
       matrix:
         platform:
           - runner: macos-13
-            target: maxosx_10_12_x86_64
+            target: macosx_10_12_x86_64
           - runner: macos-14
-            target: maxosx_11_0_arm64
+            target: macosx_11_0_arm64
     steps:
       - uses: actions/checkout@v4
       - name: Install dependencies
@@ -73,16 +73,14 @@ jobs:
           bash build_reduce.sh ${{ inputs.reduce-release-tag }}
       - name: Build python wheel
         run: |
+          export PATH="/Users/runner/.local/bin:$PATH"
           bash build_python.sh wheel ${{ inputs.version-tag }} ${{ matrix.platform.target }}
-      - uses: actions/setup-python@v5
-        with:
-          python-version: 3.12
       - name: Test wheel
         run: |
-          # uv venv
-          # source .venv/bin/activate
-          pip install -r requirements_test.txt
-          pip install build_python/dist/*.whl
+          uv venv
+          source .venv/bin/activate
+          uv pip install -r requirements_test.txt
+          uv pip install build_python/dist/*.whl
           pytest
       - name: Upload wheels
         uses: actions/upload-artifact@v4
