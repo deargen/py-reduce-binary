@@ -3,7 +3,7 @@
 Depends on the following packages:
 
 ```bash
-pip install uv
+pip install uv setuptools
 uv tool install wheel
 uv tool install build
 ```
