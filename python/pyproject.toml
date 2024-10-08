@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools>=60"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "reduce-binary" # CHANGE
+version = "0.0.0"
+description = "Install reduce with pip" # OPTIONALLY CHANGE
+authors = [
+  { name = "Kiyoon Kim" }, # OPTIONALLY CHANGE
+]
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.8,<4"
+classifiers = [
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "License :: OSI Approved :: Apache Software License",
+]
+keywords = ["biology"]
+
+[project.urls]
+"Homepage" = "https://github.com/deargen/py-reduce-binary" # OPTIONALLY CHANGE
+
+[tool.setuptools.packages.find]
+where = ["src"]
+

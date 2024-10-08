@@ -1,0 +1,169 @@
+name: Build and release to PyPI
+on:
+  workflow_dispatch:
+    inputs:
+      reduce-release-tag:
+        description: Reduce tag to build
+        required: true
+        default: v4.14
+      version-tag:
+        description: Python package version to release to PyPI (without 'v')
+        required: true
+        default: 4.14.post7
+      dry-run:
+        description: Dry run
+        type: boolean
+        default: false
+      exclude-types:
+        description: Commit types to exclude from the changelog
+        required: false
+        default: build,docs,style,other
+
+jobs:
+  build-linux:
+    runs-on: ${{ matrix.platform.runner }}
+    strategy:
+      matrix:
+        platform:
+          - runner: ubuntu-24.04
+            target: manylinux_2_17_x86_64.manylinux2014_x86_64
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install dependencies
+        run: |
+          pip install uv --user --break-system-packages
+          uv tool install build
+          uv tool install wheel
+      - name: Build app
+        run: |
+          bash build_reduce_linux.sh ${{ inputs.reduce-release-tag }}
+      - name: Build python wheel
+        run: |
+          bash build_python.sh wheel ${{ inputs.version-tag }} ${{ matrix.platform.target }}
+      - name: Upload wheels
+        uses: actions/upload-artifact@v4
+        with:
+          name: wheel-linux-${{ matrix.platform.target }}
+          path: build_python/dist/*.whl
+
+  build-macos:
+    runs-on: ${{ matrix.platform.runner }}
+    strategy:
+      matrix:
+        platform:
+          # Use the oldest version possible to maximize compatibility
+          - runner: macos-13
+            target: macosx_10_12_x86_64
+            target_env: 10.12
+          - runner: macos-15
+            target: macosx_11_0_arm64
+            target_env: 11.0
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install dependencies
+        run: |
+          uname -a
+          pip install uv --break-system-packages
+          uv tool update-shell
+          uv tool install build
+          uv tool install wheel
+          brew install gnu-sed
+      - name: Build app
+        run: |
+          MACOSX_DEPLOYMENT_TARGET=${{ matrix.platform.target_env }} bash build_reduce_mac.sh ${{ inputs.reduce-release-tag }}
+      - name: Build python wheel
+        run: |
+          export PATH="/Users/runner/.local/bin:$PATH"
+          bash build_python.sh wheel ${{ inputs.version-tag }} ${{ matrix.platform.target }}
+      - name: Upload wheels
+        uses: actions/upload-artifact@v4
+        with:
+          path: build_python/dist/*.whl
+          name: wheel-macos-${{ matrix.platform.target }}
+
+  test-ubuntu:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        python-version: ['3.8', '3.9', '3.10', '3.11', '3.12', '3.13']
+        os: [ubuntu-20.04, ubuntu-22.04, ubuntu-24.04]
+        target: [manylinux_2_17_x86_64.manylinux2014_x86_64]
+        # python-version: ['3.8']
+        # os: [ubuntu-20.04]
+    needs: [build-linux]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+          name: wheel-linux-${{ matrix.target }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Test wheel
+        run: |
+          pip install uv --break-system-packages
+          uv venv
+          source .venv/bin/activate
+          uv pip install -r requirements_test.txt
+          uv pip install dist/*.whl
+          pytest
+
+  test-macos:
+    runs-on: ${{ matrix.platform.runner }}
+    strategy:
+      matrix:
+        python-version: ['3.8', '3.9', '3.10', '3.11', '3.12', '3.13']
+        platform:
+          - runner: macos-12
+            target: macosx_10_12_x86_64
+          - runner: macos-13
+            target: macosx_10_12_x86_64
+          - runner: macos-14
+            target: macosx_11_0_arm64
+          - runner: macos-15
+            target: macosx_11_0_arm64
+    needs: [build-macos]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+          name: wheel-macos-${{ matrix.platform.target }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Test wheel
+        run: |
+          pip install uv --break-system-packages
+          uv venv
+          source .venv/bin/activate
+          uv pip install -r requirements_test.txt
+          uv pip install dist/*.whl
+          pytest
+
+  commit-changelog-and-release-github:
+    needs: [test-ubuntu, test-macos]
+    uses: deargen/workflows/.github/workflows/commit-changelog-and-release.yml@master
+    with:
+      version-tag: ${{ github.event.inputs.version-tag }}
+      dry-run: ${{ github.event.inputs.dry-run == 'true' }}
+      changelog-path: docs/CHANGELOG.md
+      exclude-types: ${{ github.event.inputs.exclude-types }}
+
+  release-to-pypi:
+    name: Release to PyPI
+    if: ${{ github.event.inputs.dry-run == 'false' }}
+    runs-on: ubuntu-24.04
+    needs: [commit-changelog-and-release-github]
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+          pattern: wheel-*
+          merge-multiple: true
+      - name: Build and upload to PyPI
+        run: |
+          pip install uv --break-system-packages
+          uv tool install twine
+          twine upload dist/* -u __token__ -p ${{ secrets.PYPI_API_TOKEN }} --non-interactive
