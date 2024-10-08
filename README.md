@@ -4,7 +4,8 @@ Depends on the following packages:
 
 ```bash
 pip install uv
-uv tool install wheel build
+uv tool install wheel
+uv tool install build
 ```
 
 ![build](https://github.com/kiyoon/reduce-binary/actions/workflows/check_app_version.yml/badge.svg)

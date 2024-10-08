@@ -37,7 +37,8 @@ jobs:
       - name: Install dependencies
         run: |
           pip install uv
-          uv tool install build wheel
+          uv tool install build
+          uv tool install wheel
       - name: Build app
         run: |
           bash build_reduce.sh
@@ -74,7 +75,8 @@ jobs:
       - name: Install dependencies
         run: |
           pip install uv
-          uv tool install build wheel
+          uv tool install build
+          uv tool install wheel
       - name: Build app
         run: |
           bash build_reduce.sh
@@ -104,7 +106,7 @@ jobs:
       - name: Install dependencies
         run: |
           pip install uv
-          uv tool install build wheel
+          uv tool install build
       - name: Build sdist
         run: |
           bash build_python.sh sdist ${{ inputs.version-tag }}
