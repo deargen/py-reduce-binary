@@ -32,6 +32,10 @@ Supported platforms:
 
 Go to Github Actions and run the `Build and Release` workflow.
 
+Version rule:
+
+4.14.post2: 4.14 is the reduce version, postN can increase with the changes of the package and the builds.
+
 
 ### Running locally
 
