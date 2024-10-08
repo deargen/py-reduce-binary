@@ -2,8 +2,12 @@ name: Build and release to PyPI
 on:
   workflow_dispatch:
     inputs:
+      reduce-release-tag:
+        description: Reduce tag to build
+        required: true
+        default: v4.14
       version-tag:
-        description: Version tag
+        description: Python package version to release to PyPI (without 'v')
         required: true
         default: 4.14
       dry-run:
@@ -41,7 +45,7 @@ jobs:
           uv tool install wheel
       - name: Build app
         run: |
-          bash build_reduce.sh ${{ inputs.version-tag }}
+          bash build_reduce.sh ${{ inputs.reduce-release-tag }}
       - name: Build python wheel
         run: |
           bash build_python.sh wheel ${{ inputs.version-tag }}
@@ -79,7 +83,7 @@ jobs:
           uv tool install wheel
       - name: Build app
         run: |
-          bash build_reduce.sh ${{ inputs.version-tag }}
+          bash build_reduce.sh ${{ inputs.reduce-release-tag }}
       - name: Build python wheel
         run: |
           bash build_python.sh wheel ${{ inputs.version-tag }}
