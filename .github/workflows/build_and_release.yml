@@ -81,6 +81,7 @@ jobs:
           pip install uv setuptools
           uv tool install build
           uv tool install wheel
+          brew install gnu-sed
       - name: Build app
         run: |
           bash build_reduce.sh ${{ inputs.reduce-release-tag }}

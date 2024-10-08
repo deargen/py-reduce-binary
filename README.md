@@ -6,6 +6,9 @@ Depends on the following packages:
 pip install uv setuptools
 uv tool install wheel
 uv tool install build
+
+# Mac
+brew install gnu-sed
 ```
 
 ![build](https://github.com/kiyoon/reduce-binary/actions/workflows/check_app_version.yml/badge.svg)
