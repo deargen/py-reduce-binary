@@ -73,9 +73,12 @@ jobs:
       - name: Build python wheel
         run: |
           bash build_python.sh wheel ${{ inputs.version-tag }} ${{ matrix.platform.target }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: 3.12
       - name: Test wheel
         run: |
-          uv venv --python=3.12
+          uv venv
           source .venv/bin/activate
           uv pip install -r requirements_test.txt
           uv pip install build_python/dist/*.whl
