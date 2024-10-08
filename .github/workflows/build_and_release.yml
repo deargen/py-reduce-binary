@@ -40,7 +40,7 @@ jobs:
           python-version: '3.12'
       - name: Install dependencies
         run: |
-          pip install uv setuptools
+          pip install uv setuptools --break-system-packages
           uv tool install build
           uv tool install wheel
       - name: Build app
@@ -78,7 +78,7 @@ jobs:
           python-version: '3.12'
       - name: Install dependencies
         run: |
-          pip install uv setuptools
+          pip install uv setuptools --break-system-packages
           uv tool install build
           uv tool install wheel
           brew install gnu-sed
@@ -110,7 +110,7 @@ jobs:
           python-version: '3.12'
       - name: Install dependencies
         run: |
-          pip install uv
+          pip install uv --break-system-packages
           uv tool install build
       - name: Build sdist
         run: |
@@ -128,9 +128,12 @@ jobs:
     needs: [linux, macos, sdist]
     steps:
       - uses: actions/download-artifact@v4
+        with:
+          path: dist
       - name: Build and upload to PyPI
         run: |
           ls
-          pip install uv
+          ls dist
+          pip install uv --break-system-packages
           uv tool install twine
           # twine upload dist/* -u __token__ -p ${{ secrets.PYPI_API_TOKEN }} --non-interactive
