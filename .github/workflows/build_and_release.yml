@@ -62,6 +62,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Install dependencies
         run: |
+          uname -a
           pip install uv --break-system-packages
           uv tool update-shell
           uv tool install build
