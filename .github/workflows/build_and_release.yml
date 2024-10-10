@@ -58,10 +58,11 @@ jobs:
     strategy:
       matrix:
         platform:
-          - runner: macos-13
-            target: macosx_10_12_x86_64
+          # Use the oldest version possible to maximize compatibility
+          - runner: macos-12
+            target: macosx_12_0_x86_64
           - runner: macos-14
-            target: macosx_11_0_arm64
+            target: macosx_14_0_arm64
     steps:
       - uses: actions/checkout@v4
       - name: Install dependencies
