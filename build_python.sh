@@ -27,8 +27,14 @@ elif [[ $# -eq 3 ]]; then
 	VERSION_NUM=$2
     PLATFORM_NAME=$3
 
-    valid_platforms=("macosx_11_0_arm64" "macosx_10_12_x86_64" "manylinux_2_17_x86_64.manylinux2014_x86_64" \
-        "manylinux_2_28_x86_64.manylinux2014_x86_64" \
+    valid_platforms=("macosx_11_0_arm64" \
+        "macosx_10_12_x86_64" \
+        "macosx_12_0_x86_64" \
+        "macosx_13_0_x86_64" \
+        "macosx_14_0_arm64" \
+        "macosx_15_0_arm64" \
+        "manylinux_2_17_x86_64.manylinux2014_x86_64" \
+        "manylinux_2_28_x86_64" \
         "manylinux_2_17_i686.manylinux2014_i686" "manylinux_2_17_aarch64.manylinux2014_aarch64" \
         "manylinux_2_17_armv7l.manylinux2014_armv7l" "manylinux_2_17_ppc64le.manylinux2014_ppc64le" \
         "manylinux_2_17_s390x.manylinux2014_s390x")
