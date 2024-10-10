@@ -23,7 +23,7 @@ jobs:
         platform:
           # Use old ubuntu for binary compatibility with older glibc
           - runner: ubuntu-20.04
-            target: manylinux_2_28_x86_64.manylinux2014_x86_64
+            target: manylinux_2_28_x86_64
     steps:
       - uses: actions/checkout@v4
       - name: Install dependencies
