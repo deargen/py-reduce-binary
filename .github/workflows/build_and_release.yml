@@ -97,7 +97,7 @@ jobs:
     name: Release
     if: ${{ github.event.inputs.dry-run == 'false' }}
     runs-on: ubuntu-24.04
-    needs: [linux, macos, sdist]
+    needs: [linux, macos]
     steps:
       - uses: actions/download-artifact@v4
         with:
