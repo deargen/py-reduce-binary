@@ -9,7 +9,7 @@ on:
       version-tag:
         description: Python package version to release to PyPI (without 'v')
         required: true
-        default: 4.14.post4
+        default: 4.14.post5
       dry-run:
         description: Dry run
         type: boolean
@@ -92,23 +92,6 @@ jobs:
         with:
           path: build_python/dist/*.whl
           name: wheel-macos-${{ matrix.platform.target }}
-
-  sdist:
-    runs-on: ubuntu-24.04
-    steps:
-      - uses: actions/checkout@v4
-      - name: Install dependencies
-        run: |
-          pip install uv --break-system-packages
-          uv tool install build
-      - name: Build sdist
-        run: |
-          bash build_python.sh sdist ${{ inputs.version-tag }}
-      - name: Upload sdist
-        uses: actions/upload-artifact@v4
-        with:
-          path: build_python/dist/*.tar.gz
-          name: wheel-sdist
 
   release:
     name: Release
