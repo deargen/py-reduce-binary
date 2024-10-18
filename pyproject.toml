@@ -89,9 +89,9 @@ max-line-length = 120
 known-third-party = ["wandb"]
 
 ## Uncomment this if you want to use Python < 3.10
-required-imports = [
-  "from __future__ import annotations",
-]
+# required-imports = [
+#   "from __future__ import annotations",
+# ]
 
 [tool.ruff.lint.flake8-tidy-imports]
 # Ban certain modules from being imported at module level, instead requiring

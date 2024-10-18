@@ -1,4 +1,5 @@
 import subprocess
+from pathlib import Path
 from typing import (
     Any,
     Callable,
@@ -15,6 +16,8 @@ _F = TypeVar("_F", bound=Callable[..., Any])
 class CopySignature(Generic[_F]):
     def __init__(self, target: _F) -> None: ...
     def __call__(self, wrapped: Callable[..., Any]) -> _F: ...
+
+REDUCE_BIN_PATH: Path
 
 @CopySignature(subprocess.run)
 def run_reduce(

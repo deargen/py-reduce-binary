@@ -11,13 +11,11 @@ authors = [
 ]
 readme = "README.md"
 license = { file = "LICENSE" }
-requires-python = ">=3.8,<4"
+requires-python = ">=3.10,<4"
 classifiers = [
   "Programming Language :: Python :: Implementation :: CPython",
   "Programming Language :: Python",
   "Programming Language :: Python :: 3",
-  "Programming Language :: Python :: 3.8",
-  "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
@@ -32,3 +30,5 @@ keywords = ["biology"]
 [tool.setuptools.packages.find]
 where = ["src"]
 
+[tool.distutils.bdist_wheel]
+python-tag = "py310"
