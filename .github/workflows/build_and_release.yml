@@ -85,11 +85,9 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        python-version: ['3.8', '3.9', '3.10', '3.11', '3.12', '3.13']
+        python-version: ['3.10', '3.11', '3.12', '3.13']
         os: [ubuntu-20.04, ubuntu-22.04, ubuntu-24.04]
         target: [manylinux_2_17_x86_64.manylinux2014_x86_64]
-        # python-version: ['3.8']
-        # os: [ubuntu-20.04]
     needs: [build-linux]
     steps:
       - uses: actions/checkout@v4
@@ -113,7 +111,7 @@ jobs:
     runs-on: ${{ matrix.platform.runner }}
     strategy:
       matrix:
-        python-version: ['3.8', '3.9', '3.10', '3.11', '3.12', '3.13']
+        python-version: ['3.10', '3.11', '3.12', '3.13']
         platform:
           - runner: macos-12
             target: macosx_10_12_x86_64
