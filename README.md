@@ -58,7 +58,10 @@ Go to Github Actions and run the `Build and Release` workflow.
 
 Version rule:
 
-4.14.post2: 4.14 is the reduce version, postN can increase with the changes of the package and the builds.
+e.g.: 4.14.0.2
+
+- 4.14 is the reduce version
+- the last digit is the build/API version number
 
 
 ### Running locally
@@ -100,10 +103,9 @@ Build the wheel. It copies the `python` to `build_python/`, built binary into it
 
 ```bash
 # One of the following
-bash build_python.sh wheel 4.14 manylinux_2_17_x86_64.manylinux2014_x86_64
-bash build_python.sh wheel 4.14 macosx_10_12_x86_64
-bash build_python.sh wheel 4.14 macosx_11_0_arm64
-bash build_python.sh sdist 4.14  # not used
+bash build_python.sh 4.14 manylinux_2_17_x86_64.manylinux2014_x86_64
+bash build_python.sh 4.14 macosx_10_12_x86_64
+bash build_python.sh 4.14 macosx_11_0_arm64
 ```
 
 Test the wheel

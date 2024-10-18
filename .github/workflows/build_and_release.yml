@@ -39,7 +39,7 @@ jobs:
           bash build_reduce_linux.sh ${{ inputs.reduce-release-tag }}
       - name: Build python wheel
         run: |
-          bash build_python.sh wheel ${{ inputs.version-tag }} ${{ matrix.platform.target }}
+          bash build_python.sh ${{ inputs.version-tag }} ${{ matrix.platform.target }}
       - name: Upload wheels
         uses: actions/upload-artifact@v4
         with:
@@ -74,7 +74,7 @@ jobs:
       - name: Build python wheel
         run: |
           export PATH="/Users/runner/.local/bin:$PATH"
-          bash build_python.sh wheel ${{ inputs.version-tag }} ${{ matrix.platform.target }}
+          bash build_python.sh ${{ inputs.version-tag }} ${{ matrix.platform.target }}
       - name: Upload wheels
         uses: actions/upload-artifact@v4
         with:
