@@ -9,7 +9,7 @@ on:
       version-tag:
         description: Python package version to release to PyPI (without 'v')
         required: true
-        default: 4.14.post7
+        default: 4.14.0.2
       dry-run:
         description: Dry run
         type: boolean
