@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import re
 
-from reduce_binary import REDUCE_BIN_PATH, run_reduce
+from reduce_binary import REDUCE_BIN_PATH, popen_reduce, run_reduce
 
 
 def test_exists():
@@ -17,20 +17,23 @@ def test_execute_help():
     proc = run_reduce("-h")
     assert proc.returncode == 2
 
+    proc = popen_reduce("-h")
+    proc.wait()
+    assert proc.returncode == 2
+
 
 def test_execute_noarg():
     proc = run_reduce("")
     assert proc.returncode == 2
 
+    proc = popen_reduce("")
+    proc.wait()
+    assert proc.returncode == 2
+
 
 def test_execute_noarg_message():
     proc = run_reduce("", capture_output=True, text=True, encoding="utf-8")
-    print(proc)
-    if isinstance(proc.stderr, bytes):
-        lines = proc.stderr.decode("utf-8")
-    else:
-        lines = proc.stderr
-    first_line = lines.splitlines()[0]
+    first_line = proc.stdout.splitlines()[0]
     assert (
         re.match(
             r"^reduce: version .*, Copyright .* J. Michael Word;.*Richardson Lab at Duke University$",

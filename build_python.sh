@@ -3,6 +3,7 @@ BUILD_DIR="$SCRIPT_DIR/build"
 
 help() {
     echo "Usage: $0 <PACKAGE_VERSION_NUM> <PLATFORM_NAME>"
+    echo "Usage: $0 4.14.0.2 manhlinux_2_17_x86_64.manylinux2014_x86_64"
 }
 
 if [[ $# -lt 2 ]]; then
