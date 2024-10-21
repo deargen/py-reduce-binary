@@ -87,6 +87,13 @@ max-line-length = 120
 [tool.ruff.lint.isort]
 # combine-as-imports = true
 known-third-party = ["wandb"]
+known-first-party = [
+  "rust_graph",
+  "bio_data_to_db",
+  "apbs_binary",
+  "slack_helpers",
+  "biotest",
+]
 
 ## Uncomment this if you want to use Python < 3.10
 # required-imports = [
