@@ -33,7 +33,7 @@ def test_execute_noarg():
 
 def test_execute_noarg_message():
     proc = run_reduce("", capture_output=True, text=True, encoding="utf-8")
-    first_line = proc.stdout.splitlines()[0]
+    first_line = proc.stderr.splitlines()[0]
     assert (
         re.match(
             r"^reduce: version .*, Copyright .* J. Michael Word;.*Richardson Lab at Duke University$",
