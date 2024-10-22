@@ -1,4 +1,5 @@
 pytest
 pytest-cov
 numpy
-biotest @ git+https://github.com/deargen/biotest@master
+biotest==0.0.2
+# biotest @ git+https://github.com/deargen/biotest@master

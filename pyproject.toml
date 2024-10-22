@@ -4,7 +4,7 @@ testpaths = ["tests"]
 
 [tool.ruff]
 src = ["python/src"]  # for ruff isort
-namespace-packages = ["tools", "scripts"]  # for INP rule, suppress on these directories
+namespace-packages = ["tools", "scripts", "tests"]  # for INP rule, suppress on these directories
 
 [tool.ruff.lint]
 # OPTIONALLY ADD MORE LATER
