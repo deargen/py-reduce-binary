@@ -63,6 +63,12 @@ e.g.: 4.14.0.2
 - 4.14 is the reduce version
 - the last digit is the build/API version number
 
+### Testing with CI (recommended)
+
+Go to Github Actions and run the `Build and Release` workflow, with **"Dry run" checked**.
+
+It will build and test the wheels on all platforms, without releasing them to PyPI.
+
 
 ### Running locally
 
