@@ -1,0 +1,47 @@
+name: Tests
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+
+jobs:
+  build-linux:
+    runs-on: ${{ matrix.platform.runner }}
+    strategy:
+      matrix:
+        platform:
+          - runner: ubuntu-24.04
+            target: manylinux_2_17_x86_64.manylinux2014_x86_64
+        python-version: ['3.10']
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install dependencies
+        run: |
+          pip install uv --user --break-system-packages
+          uv tool install build
+          uv tool install wheel
+      - name: Build app
+        run: |
+          bash build_reduce_linux.sh v4.14
+      - name: Build python wheel
+        run: |
+          bash build_python.sh 4.14.0.2 ${{ matrix.platform.target }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Setup python environment
+        run: |
+          uv venv
+          source .venv/bin/activate
+          uv pip install -r requirements_test.txt
+          uv pip install build_python/dist/*.whl
+      - name: Run pytest
+        uses: deargen/workflows/actions/run-pytest@master
+        with:
+          additional-args: --cov-report=xml --cov-report=term
+      - name: Upload results to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}

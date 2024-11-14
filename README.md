@@ -6,7 +6,8 @@
 [![PyPI - Downloads](https://img.shields.io/pypi/dm/reduce-binary)](https://pypistats.org/packages/reduce-binary)
 [![image](https://img.shields.io/pypi/l/reduce-binary.svg)](https://pypi.python.org/pypi/reduce-binary)
 [![image](https://img.shields.io/pypi/pyversions/reduce-binary.svg)](https://pypi.python.org/pypi/reduce-binary)
-
+[![Actions status](https://github.com/deargen/py-reduce-binary/workflows/Tests/badge.svg)](https://github.com/deargen/py-reduce-binary/actions)
+[![codecov](https://codecov.io/github/deargen/py-reduce-binary/graph/badge.svg?token=S9MD6B44J6)](https://codecov.io/github/deargen/py-reduce-binary)
 
 Install and use [reduce](https://github.com/rlabduke/reduce) with ease in Python.
 
