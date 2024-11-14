@@ -7,7 +7,7 @@ on:
   pull_request:
 
 jobs:
-  build-linux:
+  pytest:
     runs-on: ${{ matrix.platform.runner }}
     strategy:
       matrix:
