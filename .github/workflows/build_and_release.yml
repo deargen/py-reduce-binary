@@ -113,8 +113,6 @@ jobs:
       matrix:
         python-version: ['3.10', '3.11', '3.12', '3.13']
         platform:
-          - runner: macos-12
-            target: macosx_10_12_x86_64
           - runner: macos-13
             target: macosx_10_12_x86_64
           - runner: macos-14
