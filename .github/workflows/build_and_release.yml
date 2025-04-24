@@ -5,11 +5,11 @@ on:
       reduce-release-tag:
         description: Reduce tag to build
         required: true
-        default: v4.14
+        default: v4.15
       version-tag:
         description: Python package version to release to PyPI (without 'v')
         required: true
-        default: 4.14.0.2
+        default: 4.15.0
       dry-run:
         description: Dry run
         type: boolean
@@ -86,7 +86,7 @@ jobs:
     strategy:
       matrix:
         python-version: ['3.10', '3.11', '3.12', '3.13']
-        os: [ubuntu-20.04, ubuntu-22.04, ubuntu-24.04]
+        os: [ubuntu-22.04, ubuntu-24.04]
         target: [manylinux_2_17_x86_64.manylinux2014_x86_64]
     needs: [build-linux]
     steps:

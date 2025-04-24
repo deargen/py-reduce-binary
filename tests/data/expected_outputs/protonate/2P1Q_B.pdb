@@ -1,5 +1,5 @@
-USER  MOD reduce.4.14.230914 H: found=0, std=0, add=4519, rem=0, adj=145
-USER  MOD reduce.4.14.230914 removed 0 hydrogens (0 hets)
+USER  MOD reduce.4.15.250408 H: found=0, std=0, add=4519, rem=0, adj=145
+USER  MOD reduce.4.15.250408 removed 0 hydrogens (0 hets)
 USER  MOD -----------------------------------------------------------------
 USER  MOD scores for adjustable sidechains, with "set" totals for H,N and Q
 USER  MOD "o" means original, "f" means flipped, "180deg" is methyl default
