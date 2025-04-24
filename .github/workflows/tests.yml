@@ -24,10 +24,10 @@ jobs:
           uv tool install wheel
       - name: Build app
         run: |
-          bash build_reduce_linux.sh v4.14
+          bash build_reduce_linux.sh v4.15
       - name: Build python wheel
         run: |
-          bash build_python.sh 4.14.0.2 ${{ matrix.platform.target }}
+          bash build_python.sh 4.15.0 ${{ matrix.platform.target }}
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
